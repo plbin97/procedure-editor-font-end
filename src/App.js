@@ -1,26 +1,36 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./dragging-interface/src/index";
+import getUserToken from "./lib/getUserTokenFromCookie";
+import GetRequest from "./lib/getRequestParameters";
+import {homePage} from "./config";
+import setCookie from "./lib/setCookieForTesting";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+    state = {
+        loaded: false
+    };
+    componentDidMount() {
+        if (!this.state.loaded) {
+            let userToken = getUserToken();
+            if (userToken === null) {
+                window.location.href = homePage;
+            }
+            let param = GetRequest();
+            if (param["procedure"] === undefined) {
+                window.location.href = homePage;
+            }
+            console.log(userToken, param["procedure"]);
+            window.dragging("#dragging-interface",userToken, param["procedure"]);
+            this.setState({
+                loaded: true
+            })
+        }
+    }
+    render() {
+        return (
+            <div id={"dragging-interface"}></div>
+        )
+    }
 }
 
 export default App;

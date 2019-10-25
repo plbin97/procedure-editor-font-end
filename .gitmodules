@@ -1,0 +1,6 @@
+[submodule "src/dragging-interface"]
+	path = src/dragging-interface
+	url = https://github.com/sustainablility/dragging-interface.git
+[submodule "src/--force"]
+	path = src/--force
+	url = https://github.com/sustainablility/dragging-interface.git
