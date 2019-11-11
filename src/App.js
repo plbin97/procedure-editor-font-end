@@ -3,11 +3,18 @@ import "./dragging-interface/src/index";
 import getUserToken from "./lib/getUserTokenFromCookie";
 import GetRequest from "./lib/getRequestParameters";
 import {homePage} from "./config";
+import initDraggingInterface from "./lib/initDraggingInterface";
+import ResultDisplay from "./jsxView/resultDisplay/ResultDisplay";
+import EditorSwitch from "./jsxView/displayProcedureInfoEditor/editorSwitch";
+import EditorDisplay from "./jsxView/displayProcedureInfoEditor/editorDisplay";
+import getProcedureFromServer from "./communicationToBackend/getProcedureFromServer";
 import setCookie from "./lib/setCookieForTesting";
 
 class App extends React.Component {
     state = {
-        loaded: false
+        loaded: false,
+        resultDisplay: [],
+        displayProcedureInfoEditor: false
     };
     componentDidMount() {
         if (!this.state.loaded) {
@@ -19,16 +26,21 @@ class App extends React.Component {
             if (param["procedure"] === undefined) {
                 window.location.href = homePage;
             }
-            console.log(userToken, param["procedure"]);
-            window.dragging("#dragging-interface",userToken, param["procedure"]);
+            initDraggingInterface(userToken, param["procedure"], this);
             this.setState({
                 loaded: true
             })
         }
     }
     render() {
+        let renderItem = [];
+        renderItem.push(<ResultDisplay resultDisplay={this.state.resultDisplay} />);
+        renderItem.push(<EditorSwitch parent={this} />);
+        renderItem.push(<EditorDisplay display={this.state.displayProcedureInfoEditor} />);
+        renderItem.push(<div id={"dragging-interface"}></div>);
+
         return (
-            <div id={"dragging-interface"}></div>
+            renderItem
         )
     }
 }
