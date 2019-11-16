@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../style/resultDisplay.scss'
+import './resultDisplay.scss'
 import OneResult from "./OneResult";
 
 class ResultDisplay extends React.Component{

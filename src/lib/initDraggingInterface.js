@@ -9,7 +9,10 @@ async function initDraggingInterface(userToken, procedureName, externalJsx) {
         return false;
     }
     let procedureContents = procedure["procedure"];
-
+    externalJsx.setState({
+        procedureMetaData: procedure["metaData"],
+        procedurePublicity: procedure["public"]
+    });
     let dragging = new window.DraggingInterface();
     await dragging.init("#dragging-interface");
     await dragging.addProcedure(procedureContents[procedureContents.length - 1], procedure["procedureName"]);

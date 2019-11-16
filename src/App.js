@@ -14,8 +14,13 @@ class App extends React.Component {
     state = {
         loaded: false,
         resultDisplay: [],
-        displayProcedureInfoEditor: false
+        displayProcedureInfoEditor: false,
+        procedureName: null,
+        userToken: null,
+        procedureMetaData: null,
+        procedurePublicity: null
     };
+
     componentDidMount() {
         if (!this.state.loaded) {
             let userToken = getUserToken();
@@ -28,15 +33,20 @@ class App extends React.Component {
             }
             initDraggingInterface(userToken, param["procedure"], this);
             this.setState({
-                loaded: true
+                loaded: true,
+                procedureName: param["procedure"],
+                userToken: userToken
             })
         }
     }
     render() {
+        let displayProcedureInfoEditor = (status) => {
+            this.setState({displayProcedureInfoEditor: status})
+        };
         let renderItem = [];
         renderItem.push(<ResultDisplay resultDisplay={this.state.resultDisplay} />);
-        renderItem.push(<EditorSwitch parent={this} />);
-        renderItem.push(<EditorDisplay display={this.state.displayProcedureInfoEditor} />);
+        renderItem.push(<EditorSwitch switch={displayProcedureInfoEditor} />);
+        renderItem.push(<EditorDisplay userToken={this.state.userToken} display={this.state.displayProcedureInfoEditor} procedureName={this.state.procedureName} procedureMetaData={this.state.procedureMetaData} procedurePublicity={this.state.procedurePublicity}/>);
         renderItem.push(<div id={"dragging-interface"}></div>);
 
         return (
