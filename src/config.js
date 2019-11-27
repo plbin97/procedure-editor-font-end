@@ -4,3 +4,5 @@ export let procedureManagementAPI =  {
     getProcedure: "http://127.0.0.1:23232/getProcedure",
     editProcedureInfo: "http://127.0.0.1:23232/editProcedureInfo"
 };
+
+export let dataViewUrl = "http://127.0.0.1:3001";
